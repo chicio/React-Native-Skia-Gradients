@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, {useMemo} from 'react';
 import {
     Canvas,
     LinearGradient,
@@ -10,7 +10,7 @@ import {
     useFonts,
     vec,
 } from '@shopify/react-native-skia';
-import type { FontWeight } from '@shopify/react-native-skia/src/skia/types/Font';
+import type {FontWeight} from '@shopify/react-native-skia/src/skia/types/Font';
 import {Dimensions, ViewStyle} from 'react-native';
 
 const FONT_FAMILY_NAME = 'Ubuntu';
@@ -29,75 +29,74 @@ export enum GradientTextAlignment {
 interface GradientTextProps {
     text: string;
     fontSize: number;
-    textAlignment: GradientTextAlignment;
     colors: string[];
     vectorStartingPercentages: [number, number];
     vectorEndingPercentages: [number, number];
     textWeight?: GradientTextWeight;
-    style?: ViewStyle;
+    textAlignment?: GradientTextAlignment;
+    containerStyle?: ViewStyle;
 }
 
 const MAX_RENDER_WIDTH = Dimensions.get('window').width;
 
 export const GradientText: React.FC<GradientTextProps> = ({
-                                                              text,
-                                                              fontSize,
-                                                              textAlignment,
-                                                              colors,
-                                                              vectorStartingPercentages,
-                                                              vectorEndingPercentages,
-                                                              textWeight = GradientTextWeight.Regular,
-                                                              style,
-                                                          }) => {
+  text,
+  fontSize,
+  colors,
+  vectorStartingPercentages,
+  vectorEndingPercentages,
+  textWeight = GradientTextWeight.Regular,
+  textAlignment = GradientTextAlignment.Left,
+  containerStyle,
+}) => {
     useFonts({
         Ubuntu: [
             require('../assets/fonts/Ubuntu-Bold.ttf'),
             require('../assets/fonts/Ubuntu-Regular.ttf'),
-            require('../assets/fonts/Ubuntu-Light.ttf'),
         ],
     });
 
-    const paragraph = useMemo(() => {
-        const p = Skia.ParagraphBuilder.Make({
+    const paragraph = Skia
+        .ParagraphBuilder
+        .Make({
             textAlign: textAlignment as unknown as TextAlign,
         })
-            .pushStyle({
-                fontFamilies: [FONT_FAMILY_NAME],
-                fontSize: fontSize,
-                fontStyle: { weight: textWeight as unknown as FontWeight },
-                color: Skia.Color('black'),
-            })
-            .addText(text)
-            .pop()
-            .build();
-        p.layout(MAX_RENDER_WIDTH);
+        .pushStyle({
+            fontFamilies: [FONT_FAMILY_NAME],
+            fontSize: fontSize,
+            fontStyle: {weight: textWeight as unknown as FontWeight},
+            color: Skia.Color('black'),
+            heightMultiplier: 1
+        })
+        .addText(text)
+        .pop()
+        .build();
 
-        return p;
-    }, [fontSize, textAlignment, textWeight, text]);
+    paragraph.layout(MAX_RENDER_WIDTH);
 
-    const pHeight = Math.ceil(paragraph.getHeight());
-    const pWidth = Math.ceil(paragraph.getLongestLine());
+    const paragraphHeight = paragraph.getHeight();
+    const paragraphWidth = paragraph.getLongestLine();
 
     const canvasStyle: ViewStyle = {
-        width: pWidth,
-        height: pHeight,
-        ...style,
+        width: paragraphWidth,
+        height: paragraphHeight,
+        ...containerStyle,
     };
 
     return (
         <Canvas style={canvasStyle}>
             <Mask
                 mode={'alpha'}
-                mask={<Paragraph paragraph={paragraph} x={0} y={0} width={pWidth} />}>
-                <Rect x={0} y={0} width={pWidth} height={pHeight}>
+                mask={<Paragraph paragraph={paragraph} x={0} y={0} width={paragraphWidth}/>}>
+                <Rect x={0} y={0} width={paragraphWidth} height={paragraphHeight}>
                     <LinearGradient
                         start={vec(
-                            vectorStartingPercentages[0] * pWidth,
-                            vectorStartingPercentages[1] * pWidth,
+                            vectorStartingPercentages[0] * paragraphWidth,
+                            vectorStartingPercentages[1] * paragraphWidth,
                         )}
                         end={vec(
-                            vectorEndingPercentages[0] * pWidth,
-                            vectorEndingPercentages[1] * pWidth,
+                            vectorEndingPercentages[0] * paragraphWidth,
+                            vectorEndingPercentages[1] * paragraphWidth,
                         )}
                         colors={colors}
                     />
