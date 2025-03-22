@@ -1,5 +1,5 @@
 import {StyleSheet, View} from "react-native";
-import {GradientText, GradientTextWeight} from "@/components/GradientText";
+import {GradientFontWeight, GradientText, GradientTextAlignment} from "@/components/GradientText";
 
 export default function Tab() {
     return (
@@ -7,7 +7,7 @@ export default function Tab() {
             <GradientText
                 text={"Amazing!"}
                 fontSize={16}
-                textWeight={GradientTextWeight.Regular}
+                textWeight={GradientFontWeight.Regular}
                 colors={['#F2007C', '#F7AF17']}
                 vectorStartingPercentages={[0, 0.5]}
                 vectorEndingPercentages={[1, 0.5]}
@@ -30,7 +30,7 @@ export default function Tab() {
             <GradientText
                 text={"Amazing!"}
                 fontSize={28}
-                textWeight={GradientTextWeight.Regular}
+                textWeight={GradientFontWeight.Regular}
                 colors={['#F2007C', '#F7AF17']}
                 vectorStartingPercentages={[0, 0.5]}
                 vectorEndingPercentages={[1, 0.5]}
@@ -38,7 +38,7 @@ export default function Tab() {
             <GradientText
                 text={"Amazing!"}
                 fontSize={32}
-                textWeight={GradientTextWeight.Bold}
+                textWeight={GradientFontWeight.Bold}
                 colors={['#F2007C', '#F7AF17']}
                 vectorStartingPercentages={[0, 0.5]}
                 vectorEndingPercentages={[1, 0.5]}
@@ -46,15 +46,16 @@ export default function Tab() {
             <GradientText
                 text={"Amazing!"}
                 fontSize={36}
-                textWeight={GradientTextWeight.Bold}
+                textWeight={GradientFontWeight.Bold}
                 colors={['#F2007C', '#F7AF17']}
                 vectorStartingPercentages={[0, 0.5]}
                 vectorEndingPercentages={[1, 0.5]}
             />
             <GradientText
                 text={"This is really amazing even if on multiple lines and with a custom text alignment!!!"}
+                textAlignment={GradientTextAlignment.Left}
                 fontSize={24}
-                textWeight={GradientTextWeight.Regular}
+                textWeight={GradientFontWeight.Regular}
                 colors={['#F2007C', '#F7AF17']}
                 vectorStartingPercentages={[0, 0.5]}
                 vectorEndingPercentages={[1, 0.5]}
@@ -69,6 +70,6 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        gap: 16
+        gap: 16,
     }
 });

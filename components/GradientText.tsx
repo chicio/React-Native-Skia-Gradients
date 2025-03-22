@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import React, { useMemo } from 'react';
 import {
     Canvas,
     LinearGradient,
@@ -7,15 +7,16 @@ import {
     Rect,
     Skia,
     TextAlign,
+    FontWeight,
     useFonts,
     vec,
 } from '@shopify/react-native-skia';
-import type {FontWeight} from '@shopify/react-native-skia/src/skia/types/Font';
 import {Dimensions, ViewStyle} from 'react-native';
 
 const FONT_FAMILY_NAME = 'Ubuntu';
+const paragraphPadding = 5;
 
-export enum GradientTextWeight {
+export enum GradientFontWeight {
     Regular = 400,
     Bold = 700,
 }
@@ -26,18 +27,27 @@ export enum GradientTextAlignment {
     Center = 2,
 }
 
+const skiaFontWeight: Record<GradientFontWeight, FontWeight> = {
+    [GradientFontWeight.Regular]: FontWeight.Normal,
+    [GradientFontWeight.Bold]: FontWeight.Bold
+}
+
+const skiaTextAlign: Record<GradientTextAlignment, TextAlign> = {
+    [GradientTextAlignment.Center]: TextAlign.Center,
+    [GradientTextAlignment.Left]: TextAlign.Left,
+    [GradientTextAlignment.Right]: TextAlign.Right,
+}
+
 interface GradientTextProps {
     text: string;
     fontSize: number;
     colors: string[];
     vectorStartingPercentages: [number, number];
     vectorEndingPercentages: [number, number];
-    textWeight?: GradientTextWeight;
+    textWeight?: GradientFontWeight;
     textAlignment?: GradientTextAlignment;
     containerStyle?: ViewStyle;
 }
-
-const MAX_RENDER_WIDTH = Dimensions.get('window').width;
 
 export const GradientText: React.FC<GradientTextProps> = ({
   text,
@@ -45,37 +55,44 @@ export const GradientText: React.FC<GradientTextProps> = ({
   colors,
   vectorStartingPercentages,
   vectorEndingPercentages,
-  textWeight = GradientTextWeight.Regular,
-  textAlignment = GradientTextAlignment.Left,
+  textWeight = GradientFontWeight.Regular,
+  textAlignment = GradientTextAlignment.Center,
   containerStyle,
 }) => {
-    useFonts({
-        Ubuntu: [
-            require('../assets/fonts/Ubuntu-Bold.ttf'),
-            require('../assets/fonts/Ubuntu-Regular.ttf'),
+    const customFontMgr = useFonts({
+        [FONT_FAMILY_NAME]: [
+            require(`../assets/fonts/Ubuntu-Bold.ttf`),
+            require(`../assets/fonts/Ubuntu-Regular.ttf`),
         ],
     });
 
-    const paragraph = Skia
-        .ParagraphBuilder
-        .Make({
-            textAlign: textAlignment as unknown as TextAlign,
-        })
-        .pushStyle({
-            fontFamilies: [FONT_FAMILY_NAME],
-            fontSize: fontSize,
-            fontStyle: {weight: textWeight as unknown as FontWeight},
-            color: Skia.Color('black'),
-            heightMultiplier: 1
-        })
-        .addText(text)
-        .pop()
-        .build();
+    const paragraph = useMemo(() => {
+        if (!customFontMgr) {
+            return null;
+        }
+        return Skia
+            .ParagraphBuilder
+            .Make({ textAlign: skiaTextAlign[textAlignment] }, customFontMgr)
+            .pushStyle({
+                fontSize: fontSize,
+                fontStyle: {
+                    weight: skiaFontWeight[textWeight]
+                },
+                color: Skia.Color('black'),
+                heightMultiplier: 1
+            })
+            .addText(text)
+            .build();
+    }, [customFontMgr]);
 
-    paragraph.layout(MAX_RENDER_WIDTH);
+    if (!paragraph) {
+        return null
+    }
 
-    const paragraphHeight = paragraph.getHeight();
-    const paragraphWidth = paragraph.getLongestLine();
+    paragraph.layout(Dimensions.get('window').width);
+
+    const paragraphHeight = paragraph.getHeight() + paragraphPadding;
+    const paragraphWidth = paragraph.getLongestLine() + paragraphPadding;
 
     const canvasStyle: ViewStyle = {
         width: paragraphWidth,
