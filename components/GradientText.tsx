@@ -13,7 +13,7 @@ import {
 } from '@shopify/react-native-skia';
 import {Dimensions, ViewStyle} from 'react-native';
 
-const FONT_FAMILY_NAME = 'Ubuntu';
+const fontFamilyName = 'Ubuntu';
 const paragraphPadding = 5;
 
 export enum GradientFontWeight {
@@ -65,7 +65,7 @@ export const GradientText: React.FC<GradientTextProps> = ({
   containerStyle,
 }) => {
     const customFontMgr = useFonts({
-        [FONT_FAMILY_NAME]: [
+        [fontFamilyName]: [
             require(`../assets/fonts/Ubuntu-Bold.ttf`),
             require(`../assets/fonts/Ubuntu-Regular.ttf`),
         ],

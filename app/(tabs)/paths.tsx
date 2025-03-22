@@ -1,9 +1,10 @@
-import {View, Text, StyleSheet} from "react-native";
+import {View, StyleSheet} from "react-native";
+import {PromotionTextWithPath} from "@/components/PromotionTextWithPath";
 
 export default function Tab() {
     return (
         <View style={styles.container}>
-            <Text>Tab Paths</Text>
+            <PromotionTextWithPath />
         </View>
     );
 }
