@@ -1,67 +1,126 @@
-import {StyleSheet, View} from "react-native";
+import {ScrollView, StyleSheet, View} from "react-native";
 import {GradientFontWeight, GradientText, GradientTextAlignment} from "@/components/GradientText";
 
 export default function Tab() {
     return (
-        <View style={styles.container}>
+        <ScrollView contentContainerStyle={styles.container}>
             <GradientText
                 text={"Amazing!"}
-                fontSize={16}
-                textWeight={GradientFontWeight.Regular}
-                colors={['#F2007C', '#F7AF17']}
-                vectorStartingPercentages={[0, 0.5]}
-                vectorEndingPercentages={[1, 0.5]}
+                fontStyle={{
+                    size: 16,
+                    alignment: GradientTextAlignment.Center,
+                    weight: GradientFontWeight.Regular,
+                    lineHeight: 1
+                }}
+                gradient={{
+                    colors: ['#F2007C', '#F7AF17'],
+                    startPercentages: [0, 0.5],
+                    endPercentages: [1, 0.5]
+                }}
             />
             <GradientText
                 text={"Amazing!"}
-                fontSize={20}
-                colors={['#F2007C', '#F7AF17']}
-                vectorStartingPercentages={[0, 0.5]}
-                vectorEndingPercentages={[1, 0.5]}
+                fontStyle={{
+                    size: 20,
+                    alignment: GradientTextAlignment.Center,
+                    weight: GradientFontWeight.Regular,
+                    lineHeight: 1
+
+                }}
+                gradient={{
+                    colors: ['#F2007C', '#F7AF17'],
+                    startPercentages: [0, 0.5],
+                    endPercentages: [1, 0.5]
+                }}
             />
             <GradientText
                 text={"Amazing!"}
-                fontSize={24}
-                colors={['#F2007C', '#F7AF17']}
-                vectorStartingPercentages={[0, 0.5]}
-                vectorEndingPercentages={[1, 0.5]}
+                fontStyle={{
+                    size: 24,
+                    alignment: GradientTextAlignment.Center,
+                    weight: GradientFontWeight.Regular,
+                    lineHeight: 1
+                }}
+                gradient={{
+                    colors: ['#F2007C', '#F7AF17'],
+                    startPercentages: [0, 0.5],
+                    endPercentages: [1, 0.5]
+                }}
             />
 
             <GradientText
                 text={"Amazing!"}
-                fontSize={28}
-                textWeight={GradientFontWeight.Regular}
-                colors={['#F2007C', '#F7AF17']}
-                vectorStartingPercentages={[0, 0.5]}
-                vectorEndingPercentages={[1, 0.5]}
+                fontStyle={{
+                    size: 28,
+                    alignment: GradientTextAlignment.Center,
+                    weight: GradientFontWeight.Regular,
+                    lineHeight: 1
+                }}
+                gradient={{
+                    colors: ['#F2007C', '#F7AF17'],
+                    startPercentages: [0, 0.5],
+                    endPercentages: [1, 0.5]
+                }}
             />
             <GradientText
                 text={"Amazing!"}
-                fontSize={32}
-                textWeight={GradientFontWeight.Bold}
-                colors={['#F2007C', '#F7AF17']}
-                vectorStartingPercentages={[0, 0.5]}
-                vectorEndingPercentages={[1, 0.5]}
+                fontStyle={{
+                    size: 32,
+                    alignment: GradientTextAlignment.Center,
+                    weight: GradientFontWeight.Bold,
+                    lineHeight: 1
+                }}
+                gradient={{
+                    colors: ['#F2007C', '#F7AF17'],
+                    startPercentages: [0, 0.5],
+                    endPercentages: [1, 0.5]
+                }}
             />
             <GradientText
                 text={"Amazing!"}
-                fontSize={36}
-                textWeight={GradientFontWeight.Bold}
-                colors={['#F2007C', '#F7AF17']}
-                vectorStartingPercentages={[0, 0.5]}
-                vectorEndingPercentages={[1, 0.5]}
+                fontStyle={{
+                    size: 36,
+                    alignment: GradientTextAlignment.Center,
+                    weight: GradientFontWeight.Bold,
+                    lineHeight: 1
+                }}
+                gradient={{
+                    colors: ['#F2007C', '#F7AF17'],
+                    startPercentages: [0, 0.5],
+                    endPercentages: [1, 0.5]
+                }}
             />
             <GradientText
-                text={"This is really amazing even if on multiple lines and with a custom text alignment!!!"}
-                textAlignment={GradientTextAlignment.Left}
-                fontSize={24}
-                textWeight={GradientFontWeight.Regular}
-                colors={['#F2007C', '#F7AF17']}
-                vectorStartingPercentages={[0, 0.5]}
-                vectorEndingPercentages={[1, 0.5]}
+                text={"This is really amazing even if text goes on multiple lines and with a custom alignment!!!"}
+                fontStyle={{
+                    size: 24,
+                    alignment: GradientTextAlignment.Left,
+                    weight: GradientFontWeight.Regular,
+                    lineHeight: 1
+                }}
+                gradient={{
+                    colors: ['#F2007C', '#F7AF17'],
+                    startPercentages: [0, 0.5],
+                    endPercentages: [1, 0.5]
+                }}
                 containerStyle={{ backgroundColor: "#CFDFEF", marginTop: 36}}
             />
-        </View>
+            <GradientText
+                text={"This is really amazing even if text goes on multiple lines and with a custom alignment, plus different gradient direction!!!"}
+                fontStyle={{
+                    size: 24,
+                    alignment: GradientTextAlignment.Right,
+                    weight: GradientFontWeight.Regular,
+                    lineHeight: 1.5
+                }}
+                gradient={{
+                    colors: ['#F2007C', '#F7AF17'],
+                    startPercentages: [0, 0],
+                    endPercentages: [0, 1]
+                }}
+                containerStyle={{ backgroundColor: "#CFDFEF", marginTop: 36}}
+            />
+        </ScrollView>
     );
 }
 

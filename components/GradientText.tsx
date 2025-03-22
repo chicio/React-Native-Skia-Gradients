@@ -1,13 +1,13 @@
-import React, { useMemo } from 'react';
+import React, {useMemo} from 'react';
 import {
     Canvas,
+    FontWeight,
     LinearGradient,
     Mask,
     Paragraph,
     Rect,
     Skia,
     TextAlign,
-    FontWeight,
     useFonts,
     vec,
 } from '@shopify/react-native-skia';
@@ -38,25 +38,30 @@ const skiaTextAlign: Record<GradientTextAlignment, TextAlign> = {
     [GradientTextAlignment.Right]: TextAlign.Right,
 }
 
+interface Gradient {
+    colors: string[];
+    startPercentages: [number, number]
+    endPercentages: [number, number]
+}
+
+interface FontStyle {
+    size: number;
+    weight: GradientFontWeight;
+    alignment: GradientTextAlignment;
+    lineHeight: number
+}
+
 interface GradientTextProps {
     text: string;
-    fontSize: number;
-    colors: string[];
-    vectorStartingPercentages: [number, number];
-    vectorEndingPercentages: [number, number];
-    textWeight?: GradientFontWeight;
-    textAlignment?: GradientTextAlignment;
+    fontStyle: FontStyle;
+    gradient: Gradient
     containerStyle?: ViewStyle;
 }
 
 export const GradientText: React.FC<GradientTextProps> = ({
   text,
-  fontSize,
-  colors,
-  vectorStartingPercentages,
-  vectorEndingPercentages,
-  textWeight = GradientFontWeight.Regular,
-  textAlignment = GradientTextAlignment.Center,
+  fontStyle,
+  gradient,
   containerStyle,
 }) => {
     const customFontMgr = useFonts({
@@ -70,16 +75,17 @@ export const GradientText: React.FC<GradientTextProps> = ({
         if (!customFontMgr) {
             return null;
         }
+
         return Skia
             .ParagraphBuilder
-            .Make({ textAlign: skiaTextAlign[textAlignment] }, customFontMgr)
+            .Make({ textAlign: skiaTextAlign[fontStyle.alignment] }, customFontMgr)
             .pushStyle({
-                fontSize: fontSize,
+                fontSize: fontStyle.size,
                 fontStyle: {
-                    weight: skiaFontWeight[textWeight]
+                    weight: skiaFontWeight[fontStyle.weight]
                 },
                 color: Skia.Color('black'),
-                heightMultiplier: 1
+                heightMultiplier: fontStyle.lineHeight
             })
             .addText(text)
             .build();
@@ -108,14 +114,14 @@ export const GradientText: React.FC<GradientTextProps> = ({
                 <Rect x={0} y={0} width={paragraphWidth} height={paragraphHeight}>
                     <LinearGradient
                         start={vec(
-                            vectorStartingPercentages[0] * paragraphWidth,
-                            vectorStartingPercentages[1] * paragraphWidth,
+                            gradient.startPercentages[0] * paragraphWidth,
+                            gradient.startPercentages[1] * paragraphHeight,
                         )}
                         end={vec(
-                            vectorEndingPercentages[0] * paragraphWidth,
-                            vectorEndingPercentages[1] * paragraphWidth,
+                            gradient.endPercentages[0] * paragraphWidth,
+                            gradient.endPercentages[1] * paragraphHeight,
                         )}
-                        colors={colors}
+                        colors={gradient.colors}
                     />
                 </Rect>
             </Mask>
