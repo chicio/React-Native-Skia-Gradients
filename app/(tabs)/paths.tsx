@@ -1,11 +1,11 @@
-import {View, StyleSheet} from "react-native";
+import {ScrollView, StyleSheet} from "react-native";
 import {PromotionTextWithPath} from "@/components/PromotionTextWithPath";
 
 export default function Tab() {
     return (
-        <View style={styles.container}>
+        <ScrollView contentContainerStyle={styles.container}>
             <PromotionTextWithPath />
-        </View>
+        </ScrollView>
     );
 }
 
