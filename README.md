@@ -1,6 +1,6 @@
 # Welcome to your Expo app 👋
 
-This is an example app created with [Expo](https://expo.dev) for the blog post ["Creating Stunning Gradients in React Native with Skia"](XXX). 
+This is an example app created with [Expo](https://expo.dev) for the blog post ["Creating Stunning Gradients in React Native with Skia"](https://www.fabrizioduroni.it/blog/post/2025/04/02/react-native-skia-text-gradient). 
 In this blog post I show how you can create some beautiful texts and shape with gradients using React Native Skia.
 
 
